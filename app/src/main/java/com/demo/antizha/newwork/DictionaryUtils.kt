@@ -20,6 +20,8 @@ object DictionaryUtils {
     class OnGetDictionary : IApiResult {
         override fun onError() {
             LogUtils.debug("OnGetDictionary Error", "")
+            step += 1
+            getDictionary()
         }
 
         override fun onSuccess(data: String) {

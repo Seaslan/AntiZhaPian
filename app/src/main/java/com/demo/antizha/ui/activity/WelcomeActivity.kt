@@ -14,6 +14,11 @@ import com.demo.antizha.newwork.UpdateUtil
 
 class WelcomeActivity : Activity() {
     private var beginSec: Long = 0
+    private var hasNavigated: Boolean = false
+
+    companion object {
+        private const val MAX_SPLASH_TIMEOUT: Long = 5000
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,16 +42,21 @@ class WelcomeActivity : Activity() {
     }
 
     private fun closeSplash() {
+        if (hasNavigated) return
         val currentSec = System.currentTimeMillis()
-        if (DictionaryUtils.step < 2 || currentSec - beginSec < MainActivity.SPLASH_TIME || UpdateUtil.uppVerDlg != null) {
+        val elapsedTime = currentSec - beginSec
+
+        if (elapsedTime < MAX_SPLASH_TIMEOUT && (DictionaryUtils.step < 2 || elapsedTime < MainActivity.SPLASH_TIME || UpdateUtil.uppVerDlg != null)) {
             Handler(Looper.getMainLooper()).postDelayed({
                 closeSplash()
             }, 500)
             return
         }
+
+        hasNavigated = true
         val intent = Intent()
         intent.setClass(this, MainActivity::class.java)
-        startActivity(intent);
-        finishPage();
+        startActivity(intent)
+        finishPage()
     }
 }

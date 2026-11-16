@@ -67,16 +67,23 @@ object UpdateUtil : View.OnClickListener {
     /*{"code":2,"msg":"当前版本过低，请前往应用市场下载最新版本"}*/
     @Suppress("UNUSED_PARAMETER")
     fun onGetVersion(data: String, saveFile: String) {
-        val text = JniHandStamp.getSData(data)
-        val ver = Gson().fromJson(text, DownloadInfoPackage::class.java)
-        val oldVer = UserInfoBean.version
-        val currentVer = ver.data.version.toString()
+        try {
+            val text = JniHandStamp.getSData(data)
+            if (TextUtils.isEmpty(text)) return
+            val ver = Gson().fromJson(text, DownloadInfoPackage::class.java) ?: return
+            val downloadInfo: DownloadInfo? = ver.data
+            if (downloadInfo == null) return
+            val oldVer = UserInfoBean.version
+            val currentVer = downloadInfo.version ?: ""
 
-        if (ver.code == 0)
-            UserInfoBean.setVer(currentVer, ver.data.innerVersion)
-        if (!TextUtils.equals(currentVer, oldVer))
-            showDialogUpdate(ver.data)
-        saveBuff2File(text, saveFile)
+            if (ver.code == 0 && !TextUtils.isEmpty(currentVer))
+                UserInfoBean.setVer(currentVer, downloadInfo.innerVersion)
+            if (!TextUtils.isEmpty(currentVer) && !TextUtils.equals(currentVer, oldVer))
+                showDialogUpdate(downloadInfo)
+            saveBuff2File(text, saveFile)
+        } catch (e: Exception) {
+            LogUtils.debug("onGetVersion Error", e.message ?: "")
+        }
     }
 
     fun showDialogUpdate(downloadInfo: DownloadInfo) {

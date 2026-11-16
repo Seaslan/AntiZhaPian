@@ -4,12 +4,12 @@ plugins {
 }
 
 android {
-    compileSdkVersion 31
+    compileSdk 34
 
     defaultConfig {
         applicationId "com.hicorenational.antifraud"
         minSdkVersion 27
-        targetSdkVersion 31
+        targetSdk 34
         versionCode 144
         versionName "2.0.8"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -39,9 +39,12 @@ android {
     }
     buildFeatures {
         viewBinding = true
+        buildConfig = true
     }
     packagingOptions {
-        exclude 'META-INF/INDEX.LIST'
+        resources {
+            excludes += ['META-INF/INDEX.LIST']
+        }
     }
     sourceSets {
         main {
@@ -49,7 +52,6 @@ android {
         }
     }
     ndkVersion '23.0.7599858'
-    buildToolsVersion '31.0.0'
     namespace 'com.demo.antizha'
 }
 
@@ -79,7 +81,7 @@ dependencies {
     //设置页用的按钮
     implementation 'com.github.zcweng:switch-button:0.0.3@aar'
     //webFragment用的浏览窗口
-    implementation 'com.github.Justson.AgentWeb:agentweb-core:v4.1.9'
+    implementation 'com.github.Justson.AgentWeb:agentweb-core:v4.1.9-androidx'
     //homeFragment上的来回切换的横幅
     implementation 'io.github.youth5201314:banner:2.2.2'
     //预警窗口中使用，播放JSON格式的动画

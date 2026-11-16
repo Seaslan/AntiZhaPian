@@ -123,21 +123,22 @@ object UnsafeOkHttpClient {
                 iApiResult.onError()
             }
 
-            @Throws(IOException::class)
             override fun onResponse(call: Call, response: Response) {
                 LogUtils.debug("asynchronousCall ", "onResponse")
                 try {
                     //如果不手动设置gzip，让okhttp自动处理，如果返回的数据有问题，调用bytes()的时候会异常
                     //如果手动设置gzip，如果返回的数据有问题，则在decodeData里会抛出异常
                     val bodyString = decodeData(response.body()?.bytes(), response.headers())
-                    mHandler.post(object : Runnable {
-                        override fun run() {
+                    mHandler.post {
+                        try {
                             iApiResult.onSuccess(bodyString)
+                        } catch (e: Exception) {
+                            LogUtils.debug("asynchronousCall ", "onSuccess exception: " + e.message)
                         }
-                    })
-                } catch (e: IOException) {
-                    LogUtils.debug("asynchronousCall ", "onResponse data error")
-                    onFailure(call, e)
+                    }
+                } catch (e: Exception) {
+                    LogUtils.debug("asynchronousCall ", "onResponse data error: " + e.message)
+                    onFailure(call, IOException(e.message))
                 }
             }
         })
@@ -219,17 +220,20 @@ fun bodyIsGzip(array: ByteArray): Boolean {
 
 @Throws(IOException::class)
 fun decodeData(data: ByteArray?, headers: Headers): String {
+    if (data == null || data.isEmpty()) {
+        return ""
+    }
     var iszip = false
     val encoding = headers.get("Content-Encoding")
     if (encoding != null && TextUtils.equals("gzip", encoding))
         iszip = true
-    if (iszip != bodyIsGzip(data!!)) {
+    if (iszip != bodyIsGzip(data)) {
         LogUtils.debug("decodeData ", "gzip error")
         throw IOException()
     }
     val bodyString: String
     if (bodyIsGzip(data)) {
-        var baos = ByteArrayOutputStream()
+        val baos = ByteArrayOutputStream()
         val gzipIn = GZIPInputStream(ByteArrayInputStream(data))
         var readByte: Int
         while (gzipIn.read().also { readByte = it } != -1) baos.write(readByte)

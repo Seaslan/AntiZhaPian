@@ -33,6 +33,7 @@ object JniHandStamp {
 
         override fun onError() {
             LogUtils.debug("OnGetPeer Error", "")
+            iOneClickListener.clickOKBtn()
         }
 
         override fun onSuccess(data: String) {
