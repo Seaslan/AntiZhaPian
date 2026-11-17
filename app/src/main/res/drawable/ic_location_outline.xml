@@ -1,0 +1,14 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+    <!-- Outer pin outline -->
+    <path
+        android:fillColor="#333333"
+        android:pathData="M12,2C8.14,2 5,5.14 5,9c0,5.25 7,13 7,13s7,-7.75 7,-13c0,-3.86 -3.14,-7 -7,-7zM12,19.92c-2.05,-2.61 -5,-6.99 -5,-10.92c0,-2.76 2.24,-5 5,-5s5,2.24 5,5c0,3.93 -2.95,8.31 -5,10.92z"/>
+    <!-- Center solid dot -->
+    <path
+        android:fillColor="#333333"
+        android:pathData="M12,9m-2.2,0a2.2,2.2 0,1 1,4.4 0a2.2,2.2 0,1 1,-4.4 0"/>
+</vector>

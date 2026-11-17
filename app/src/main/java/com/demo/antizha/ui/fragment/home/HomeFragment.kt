@@ -201,6 +201,7 @@ class HomeFragment : Fragment(), IClickListener {
     private lateinit var mRefreshLayout: SmartRefreshLayout
     private lateinit var mRecyclerview: RecyclerView
     private lateinit var mHomeTopName: TextView
+    private lateinit var mTvCityName: TextView
     private lateinit var mTvNoteNum: TextView
 
     private lateinit var headerView: View
@@ -209,6 +210,7 @@ class HomeFragment : Fragment(), IClickListener {
     private lateinit var mTvCheckFrad: TextView
     private lateinit var mVirusCheck: View
     private lateinit var mFruadCheck: View
+    private lateinit var mAiCheck: View
     private lateinit var mLlHead: View
     private lateinit var mLlFoot: View
     private lateinit var mTvNewCase: TextView
@@ -277,7 +279,18 @@ class HomeFragment : Fragment(), IClickListener {
         mRefreshLayout = root.findViewById(R.id.sm_refresh)
         mRecyclerview = root.findViewById(R.id.recyclerview)
         mHomeTopName = root.findViewById(R.id.home_top_name)
+        mTvCityName = root.findViewById(R.id.tv_city_name)
         mTvNoteNum = root.findViewById(R.id.tv_num_tip)
+
+        // Parse and set city name
+        val region = UserInfoBean.region
+        if (!TextUtils.isEmpty(region)) {
+            val parts = region.split(".")
+            if (parts.isNotEmpty()) {
+                mTvCityName.text = parts.last() // Display the district/city (last part)
+            }
+        }
+
         initViewNewCaseList()
         initBanner()
         initRecycleTool(mToolRecycle)
@@ -303,6 +316,7 @@ class HomeFragment : Fragment(), IClickListener {
         mTvCheckFrad = headerView.findViewById(R.id.tv_check_frad)
         mVirusCheck = headerView.findViewById(R.id.fl_virus_check)
         mFruadCheck = headerView.findViewById(R.id.fl_fruad_check)
+        mAiCheck = headerView.findViewById(R.id.fl_ai_check)
         mLlHead = headerView.findViewById(R.id.ll_head)
         mTvNewCase = headerView.findViewById(R.id.tv_new_case)
         mHomeTopName.typeface = typeME
@@ -331,6 +345,9 @@ class HomeFragment : Fragment(), IClickListener {
         })
         mFruadCheck.setOnClickListener(View.OnClickListener {
             startActivity(Intent(activity, CheckFraudActivity::class.java))
+        })
+        mAiCheck.setOnClickListener(View.OnClickListener {
+            com.hjq.toast.ToastUtils.show("AI内容鉴定已开启")
         })
     }
 

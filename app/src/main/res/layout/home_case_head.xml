@@ -130,14 +130,14 @@
                         android:id="@+id/tv_frad"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="风险查询"
+                        android:text="一证通查"
                         android:textColor="#1c283f"
                         android:textSize="14sp" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="支付社交账号核验"
+                        android:text="个人名下账户核查"
                         android:textColor="#666666"
                         android:textSize="11sp" />
                 </LinearLayout>
@@ -155,9 +155,57 @@
                     android:layout_gravity="right"
                     android:layout_margin="8dp"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/iv_virus_check" />
+                    android:src="@drawable/iv_one_check" />
             </FrameLayout>
         </LinearLayout>
+
+        <FrameLayout
+            android:id="@+id/fl_ai_check"
+            android:layout_width="match_parent"
+            android:layout_height="75dp"
+            android:layout_marginLeft="@dimen/dp_15"
+            android:layout_marginTop="8dp"
+            android:layout_marginRight="@dimen/dp_15"
+            android:background="@drawable/card_corner_white_bg">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="15dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tv_ai_check"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="AI内容鉴定"
+                    android:textColor="#1c283f"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="一键识别AI生成，守护信息真实"
+                    android:textColor="#666666"
+                    android:textSize="11sp" />
+            </LinearLayout>
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:scaleType="centerCrop"
+                android:src="@drawable/iv_scaov_bg" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:layout_margin="8dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/iv_ai_check" />
+        </FrameLayout>
     </LinearLayout>
 
     <LinearLayout
